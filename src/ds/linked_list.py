@@ -1,4 +1,4 @@
-from src.ds import Node
+from ds.node import Node
 
 
 class LinkedList:
@@ -138,23 +138,136 @@ class LinkedList:
     '''
         printing list
     '''
-    def print_list(self):
+    def linked_list_data(self):
         curr_node = self.head
         nodes = []
         while curr_node:
             nodes.append(curr_node.data)
             curr_node = curr_node.next
-        print(nodes)
+        return nodes
 
     '''
         reversing list by iterative method
     '''
     def reverse_iterative(self):
         curr_node = self.head
-
-
+        prev_node = None
+        while curr_node:
+            next_node = curr_node.next
+            curr_node.next = prev_node
+            prev_node = curr_node
+            curr_node = next_node
+        self.head = prev_node
     '''
         reversing list by recursive method
     '''
     def reverse_recursive(self):
+        def _reverse_recursive(cur, prev):
+            if not cur:
+                return prev
+
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+            return _reverse_recursive(cur, prev)
+        self.head = _reverse_recursive(cur = self.head, prev=None)
+
+    ''' 
+    Mege sort linked list
+    '''
+    def merge_sort_list(self, list):
+        p = self.head
+        q = list.head
+        s = None
+
+        if not p:
+            return s
+        if not q:
+            return p
+
+        if p and q:
+            if p.data <= q.data:
+                s = p
+                p = s.next
+            else:
+                s = q
+                q = q.next
+        new_head = s
+        while p and q:
+            if p.data <= q.data:
+                s.next = p
+                s = p
+                p = s.next
+            else:
+                s.next = q
+                s = q
+                q = s.next
+        if not p:
+            s.next = q
+
+        if not q:
+            s.next = p
+
+        self.head = new_head
+
+    def remove_duplicates(self):
+        cur = self.head
+        prev = None
+        dup_values = dict()
+
+        while cur:
+            if cur.data in dup_values:
+                prev.next = cur.next
+                cur = None
+            else:
+                dup_values[cur.data] = 1
+                prev = cur
+            cur = prev.next
+
+    def get_nth_from_last(self, n):
+        cur = self.head
+        total_len = self.len_iterative()
+        while cur:
+            if total_len == n:
+                return cur.data
+            total_len -= 1
+            cur = cur.next
+
+        if cur is None:
+            return
+
+    def count_occuerences(self, data):
+        cur = self.head
+        count = 0
+        while cur:
+            if cur.data == data:
+                count += 1
+            cur =cur.next
+        return count
+
+    def rotate(self, pivot):
+        if self.head and self.head.next:
+            p = self.head
+            q = self.head
+            prev = None
+            count = 0
+
+            while p and count < pivot:
+                prev = p
+                p = p.next
+                q = q.next
+                count += 1
+            p = prev
+            while q:
+                prev = q
+                q = q.next
+            q = prev
+
+            q.next = self.head
+            self.head = p.next
+            p.next = None
+
+
+    def is_plaindrome(self):
         pass

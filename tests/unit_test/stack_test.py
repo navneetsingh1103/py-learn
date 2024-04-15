@@ -1,11 +1,10 @@
 import unittest
 
-from src.ds import Stack
-
+from ds.stack import Stack
 
 class StackTestCase(unittest.TestCase):
 
-    def test_something(self):
+    def test_stack(self):
         stack = Stack()
         stack.push("A")
         stack.push("B")
